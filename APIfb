@@ -1,0 +1,133 @@
+import java.io.*; 
+import java.net.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Scanner;
+
+import javax.imageio.ImageIO;
+
+import org.apache.commons.codec.binary.Base64;
+
+public class image {
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 */
+	public static void main(String[] args) throws IOException 
+        {
+		System.out.println("enter string");
+		Scanner scanner = new Scanner(System.in);
+		String text = scanner.nextLine();
+		System.out.println("Your string is " + text);
+		BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+        Font font = new Font("Arial", Font.PLAIN, 48);
+        g2d.setFont(font);
+        FontMetrics fm = g2d.getFontMetrics();
+        int width = fm.stringWidth(text);
+        int height = fm.getHeight();
+        g2d.dispose();
+
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        g2d = img.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        g2d.setFont(font);
+        fm = g2d.getFontMetrics();
+        g2d.setColor(Color.RED);
+        g2d.drawString(text, 0, fm.getAscent());
+        g2d.dispose();
+        try {
+            ImageIO.write(img, "png", new File("Text.png"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        System.out.println("Your string is " + text);
+        
+	}
+
+public class Facebook
+{
+static final String BOUNDARY = "----------V2ymHFg03ehbqgZCaKO6jy";
+{
+File image = new File("Text.png"); 
+uploadPhoto(image);  
+} 
+} 
+} 
+} 
+public static void uploadPhoto(File image) throws IOException 
+{ 
+URL url; 
+HttpURLConnection urlConn; 
+DataOutputStream printout; 
+DataInputStream input;
+FileInputStream imgStream = new FileInputStream(image); 
+byte[] buffer = new byte[(int) image.length()]; 
+imgStream.read(buffer); 
+Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("127.0.0.1", 12080)); 
+url = new
+URL("https://graph.facebook.com/me/photos?
+access_token="EAACEdEose0cBAPrxbCGSZBZCWz5VxoqFxsh7ZAw35uZAl4RhuXkTtLUvcZAG0soIpqC5rhcAeQhoL49jZBJ8e5T7bN9gJaZBZA8fZArkGIg8YLY8ZCFxp0TnU2Hl4yYnicQFaSwGtcXh1WdqcbCQHsWgRthEwTycI7fnZBVne2VPVrKXxMqYvOGIQV64XinhBGtZA2YZD");
+System.out.println("Before Open Connection"); 
+urlConn = (HttpURLConnection) url.openConnection(proxy); 
+urlConn.setRequestProperty("Content-Type","multipart/form-data; boundary=" + getBoundaryString()); 
+urlConn.setDoOutput(true); 
+urlConn.setUseCaches(false); 
+urlConn.setRequestMethod("POST"); 
+String boundary = getBoundaryString(); 
+String boundaryMessage = getBoundaryMessage(boundary, "upload_field","j", "image/png"); 
+String endBoundary = "\r\n--" + boundary + "--\r\n";
+ByteArrayOutputStream bos = new ByteArrayOutputStream();
+bos.write(boundaryMessage.getBytes());
+bos.write(buffer);
+bos.write(endBoundary.getBytes());
+printout = new DataOutputStream(urlConn.getOutputStream());
+printout.write(bos.toByteArray());
+printout.flush();
+printout.close();
+if (urlConn.getResponseCode() == 400
+
+|| urlConn.getResponseCode() == 500) { 
+input = new DataInputStream(urlConn.getErrorStream());
+}
+
+else
+
+{ 
+input = new DataInputStream(urlConn.getInputStream()); 
+} 
+String str;
+while (null != ((str = input.readLine()))) { 
+System.out.println(str); 
+} 
+input.close(); 
+} 
+public static String getBoundaryString() {
+return BOUNDARY;
+} 
+public static String getBoundaryMessage(String boundary, String fileField,
+String fileName, String fileType) {
+StringBuffer res = new StringBuffer("--").append(boundary).append("\r\n");
+res.append("Content-Disposition: form-data; name=\"").append(fileField)
+.append("\"; filename=\"").append(fileName).append("\"\r\n")
+.append("Content-Type: ").append(fileType).append("\r\n\r\n");
+return res.toString();
+}
+}
